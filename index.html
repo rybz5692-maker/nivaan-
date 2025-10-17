@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nivaan's 2nd Birthday</title>
+    <link rel="stylesheet" href="src/css/main.css">
+    <style>
+      /* small toast style */
+      #toast-nivaan{
+        position:fixed;
+        left:50%;
+        transform:translateX(-50%);
+        bottom:24px;
+        background:rgba(0,0,0,0.85);
+        color:#fff;
+        padding:10px 16px;
+        border-radius:8px;
+        z-index:9999;
+        font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+        font-size:15px;
+        opacity:0;
+        transition:opacity 220ms ease;
+        pointer-events:none;
+      }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Nivaan's 2nd Birthday Celebration!</h1>
+        <img src="https://github.com/rybz5692-maker/nivaan-/blob/main/edited-edited-1760472528519.png" alt="Nivaan's Photo" class="nivaan-photo">
+        <button id="wishButton">Click to Add Birthday Wish</button>
+    </div>
+
+    <!-- audio (will be started on first user click) -->
+    <audio id="birthdayMusic" src="https://github.com/rybz5692-maker/nivaan-/blob/main/123%20(2).mp3" preload="auto"></audio>
+
+    <!-- toast container will be created dynamically -->
+
+    <script src="src/js/main.js" defer></script>
+
+    <script>
+      // small inline handler to start music and show a thank-you toast on click
+      document.addEventListener('DOMContentLoaded', () => {
+        const btn = document.getElementById('wishButton');
+        const audio = document.getElementById('birthdayMusic');
+        let played = false;
+
+        function showToast(message, timeout = 3000) {
+          if (document.getElementById('toast-nivaan')) return;
+          const t = document.createElement('div');
+          t.id = 'toast-nivaan';
+          t.textContent = message;
+          document.body.appendChild(t);
+          // force style apply then fade in
+          requestAnimationFrame(() => t.style.opacity = '1');
+          setTimeout(() => {
+            t.style.opacity = '0';
+            t.addEventListener('transitionend', () => t.remove(), { once: true });
+          }, timeout);
+        }
+
+        btn?.addEventListener('click', () => {
+          if (!played) {
+            audio.play().catch(() => {/* playback may be blocked on some browsers */});
+            played = true;
+          }
+          // show thank you immediately when user clicks the wish button
+          showToast("Thank you! Your birthday wish was recorded 🎉");
+          // If you have a modal/wish form handled in src/js/main.js, it will still open.
+        });
+      });
+    </script>
+</body>
+</html>
